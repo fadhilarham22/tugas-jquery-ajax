@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zippopotam API Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#btnLoadData").click(function() {
+        var zipcode = $("#zipcodeInput").val();
+
+        // Membuat permintaan AJAX GET ke API
+        $.ajax({
+          url: "http://api.zippopotam.us/us/" + zipcode,
+          dataType: "json",
+          success: function(data) {
+            // Mengolah data respons
+            var city = data.places[0]['place name'];
+            var state = data.places[0]['state'];
+            var latitude = data.places[0]['latitude'];
+            var longitude = data.places[0]['longitude'];
+
+            // Menampilkan data ke dalam elemen HTML
+            $("#resultTable").html(`
+              <tr>
+                <td>Kota:</td>
+                <td>${city}</td>
+              </tr>
+              <tr>
+                <td>Provinsi:</td>
+                <td>${state}</td>
+              </tr>
+              <tr>
+                <td>Latitude:</td>
+                <td>${latitude}</td>
+              </tr>
+              <tr>
+                <td>Longitude:</td>
+                <td>${longitude}</td>
+              </tr>
+            `);
+          },
+          error: function() {
+            alert("Terjadi kesalahan dalam mengambil data.");
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Informasi Kode Pos</h1>
+  <h3>Masukan nomor zip code, misal:85001</h3>
+  <label for="zipcodeInput">Masukkan Kode Pos:</label>
+  <input type="text" id="zipcodeInput">
+  <button id="btnLoadData">Muat Data</button>
+  <table id="resultTable">
+    <tr>
+      <td>Kota:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Provinsi:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Latitude:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Longitude:</td>
+      <td></td>
+    </tr>
+  </table>
+</body>
+</html>
+ 
